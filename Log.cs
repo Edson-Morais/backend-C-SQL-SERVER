@@ -10,16 +10,32 @@ namespace backend_CS_SQL_SERVER
     public class Log
     {
         static string pastausuario = Environment.GetEnvironmentVariable("HOMEPATH");
-        string diretorio = pastausuario + @"\Documents\";//diretorio da pasta
-        string nomePasta = "LOG BACKEND";//nome da pasta
+        string diretorio = pastausuario + @"\Documents\";
+        string nomePasta = "LOG";//nome da pasta
         string nomeArquivo = "log.txt";// nome do arquivo
-        public Log(string log)
+
+
+        public Log()
         {
-            DirectoryInfo raiz = new DirectoryInfo(diretorio);
-            raiz.CreateSubdirectory(nomePasta);
-            StreamWriter arquivo = new StreamWriter(diretorio + "\\" + nomePasta + "\\" + nomeArquivo, true);
-            arquivo.WriteLine(log + " | " + DateTime.Now.ToString());
-            arquivo.Close();
+
+        }
+        public void criar(string log)
+        {
+            FileInfo file = new FileInfo(diretorio + "\\" + nomePasta);
+            if (file.Exists)
+            {
+                StreamWriter arquivo = new StreamWriter(diretorio + "\\" + nomePasta + "\\" + nomeArquivo, true);
+                arquivo.WriteLine(log + " " + DateTime.Now.ToString());
+                arquivo.Close();
+            }
+            else
+            {
+                DirectoryInfo raiz = new DirectoryInfo(diretorio);
+                raiz.CreateSubdirectory(nomePasta);
+                StreamWriter arquivo = new StreamWriter(diretorio + "\\" + nomePasta + "\\" + nomeArquivo, true);
+                arquivo.WriteLine(log + " " + DateTime.Now.ToString());
+                arquivo.Close();
+            }
         }
     }
 }
